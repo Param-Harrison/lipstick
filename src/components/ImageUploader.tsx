@@ -2,7 +2,6 @@
 
 import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { motion } from 'framer-motion';
 import { PhotoIcon } from '@heroicons/react/24/outline';
 
 interface ImageUploaderProps {
@@ -34,23 +33,25 @@ export default function ImageUploader({ onImageSelect }: ImageUploaderProps) {
   });
 
   return (
-    <motion.div
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors
-        ${isDragActive ? 'border-pink-500 bg-pink-50' : 'border-gray-300 hover:border-pink-400'}`}
+    <div
       {...getRootProps()}
+      className={`flex-1 flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all duration-300
+        ${isDragActive 
+          ? 'border-pink-500 bg-pink-50/50' 
+          : 'border-gray-200 hover:border-pink-400 hover:bg-gray-50/50'
+        }`}
     >
       <input {...getInputProps()} />
       <PhotoIcon className="w-12 h-12 mx-auto mb-4 text-gray-400" />
       {isDragActive ? (
         <p className="text-pink-600 font-medium">Drop your photo here...</p>
       ) : (
-        <div>
-          <p className="text-gray-600 mb-2">Drag and drop your photo here, or click to select</p>
-          <p className="text-sm text-gray-500">Supports PNG, JPG, JPEG, WEBP</p>
+        <div className="space-y-2">
+          <p className="text-gray-600">Drag and drop your photo here</p>
+          <p className="text-sm text-gray-500">or click to select from your files</p>
+          <p className="text-xs text-gray-400 mt-2">Supports PNG, JPG, JPEG, WEBP</p>
         </div>
       )}
-    </motion.div>
+    </div>
   );
 } 

@@ -154,30 +154,6 @@ export default function LipstickPreview({
               ctx.fillRect(0, minY, canvas.width, maxY - minY);
               ctx.globalCompositeOperation = 'source-over';
 
-              // Only draw gloss if lips are closed (gap between upper/lower inner lip is small)
-              // Use points 13 (upper inner) and 14 (lower inner) for vertical gap
-              // const upperInner = landmarks[13];
-              // const lowerInner = landmarks[14];
-              // const lipGap = Math.abs((upperInner.y - lowerInner.y) * canvas.height);
-              // if (lipGap < canvas.height * 0.04) { // threshold: adjust as needed
-              //   ctx.save();
-              //   ctx.globalAlpha = 0.18;
-              //   ctx.beginPath();
-              //   // Center gloss on lower lip (outerLip[16] is usually center bottom)
-              //   const glossCenter = outerLip[16];
-              //   ctx.ellipse(
-              //     glossCenter.x * canvas.width,
-              //     glossCenter.y * canvas.height,
-              //     canvas.width * 0.06,
-              //     canvas.height * 0.018,
-              //     0,
-              //     0,
-              //     2 * Math.PI
-              //   );
-              //   ctx.fillStyle = '#fff';
-              //   ctx.fill();
-              //   ctx.restore();
-              // }
 
               ctx.restore();
             }
@@ -206,19 +182,49 @@ export default function LipstickPreview({
   return (
     <div className="relative flex justify-center">
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="relative rounded-xl overflow-hidden shadow-2xl w-full max-w-[350px] mx-auto"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.3 }}
+        className="relative rounded-2xl overflow-hidden shadow-2xl w-full max-w-[500px] mx-auto bg-white"
       >
         <canvas
           ref={canvasRef}
-          className="w-full h-auto max-w-[350px] mx-auto block"
+          className="w-full h-auto block"
         />
         {isProcessing && (
-          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-            <div className="text-white text-lg font-medium">Processing...</div>
-          </div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center"
+          >
+            <div className="flex flex-col items-center gap-4">
+              <div className="w-12 h-12 border-4 border-pink-500 border-t-transparent rounded-full animate-spin" />
+              <div className="text-white text-lg font-medium">Processing your photo...</div>
+              <p className="text-white/80 text-sm">Applying lipstick color: {color.name}</p>
+            </div>
+          </motion.div>
         )}
+        
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent"
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div
+                className="w-6 h-6 rounded-full shadow-md"
+                style={{ backgroundColor: color.hex }}
+              />
+              <span className="text-white font-medium">{color.name}</span>
+            </div>
+            <div className="text-white/80 text-sm">
+              Try another shade above
+            </div>
+          </div>
+        </motion.div>
       </motion.div>
     </div>
   );
