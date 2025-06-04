@@ -13,40 +13,11 @@ interface ColorPickerProps {
   onColorSelect: (color: Color) => void;
 }
 
-// Add or update the color palette
-const lipstickColors: Color[] = [
-  { name: 'Classic Red', hex: '#C21807' },
-  { name: 'Ruby Wine', hex: '#8B1E3F' },
-  { name: 'Rose Pink', hex: '#E75480' },
-  { name: 'Coral Crush', hex: '#FF6F61' },
-  { name: 'Nude Beige', hex: '#D2A679' },
-  { name: 'Soft Mauve', hex: '#B784A7' },
-  { name: 'Berry Bliss', hex: '#7B294E' },
-  { name: 'Deep Plum', hex: '#4B1248' },
-  { name: 'Chocolate Brown', hex: '#5B3A29' },
-  { name: 'Peachy Nude', hex: '#F7C6A3' },
-  { name: 'Dusty Rose', hex: '#C08081' },
-  { name: 'Fuchsia Pop', hex: '#D72660' },
-  { name: 'Burnt Sienna', hex: '#E97451' },
-  { name: 'Mulberry', hex: '#70193D' },
-  { name: 'Classic Pink', hex: '#F48FB1' },
-  // More nude shades
-  { name: 'Soft Sand', hex: '#E2B8A3' },
-  { name: 'Bare Blush', hex: '#E8C3B9' },
-  { name: 'Caramel Nude', hex: '#B4846C' },
-  { name: 'Toasted Almond', hex: '#CBA18B' },
-  { name: 'Warm Taupe', hex: '#BFA6A0' },
-  { name: 'Honey Nude', hex: '#D1A074' },
-  { name: 'Pink Nude', hex: '#EEC1BB' },
-  { name: 'Mocha Nude', hex: '#A9746E' },
-  { name: 'Latte Nude', hex: '#C7A17A' },
-];
-
-export default function ColorPicker({ selectedColor, onColorSelect }: ColorPickerProps) {
+export default function ColorPicker({ colors, selectedColor, onColorSelect }: ColorPickerProps) {
   return (
-    <div className="overflow-y-auto pr-2">
+    <div className="h-full">
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-        {lipstickColors.map((color) => (
+        {colors.map((color) => (
           <motion.button
             key={color.hex}
             whileHover={{ scale: 1.02 }}

@@ -45,29 +45,33 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-3xl shadow-xl p-6 sm:p-8 hover:shadow-2xl transition-all duration-300 border border-gray-100"
+            className="bg-white rounded-3xl shadow-xl p-6 sm:p-8 hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col"
           >
             <h2 className="text-2xl sm:text-3xl font-semibold mb-6 flex items-center gap-3 text-gray-800">
               <PhotoIcon className="w-7 h-7 text-pink-500" />
               Upload Your Photo
             </h2>
-            <ImageUploader onImageSelect={setSelectedImage} />
+            <div className="flex-1">
+              <ImageUploader onImageSelect={setSelectedImage} />
+            </div>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-3xl shadow-xl p-6 sm:p-8 hover:shadow-2xl transition-all duration-300 border border-gray-100"
+            className="bg-white rounded-3xl shadow-xl p-6 sm:p-8 hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col"
           >
             <h2 className="text-2xl sm:text-3xl font-semibold mb-6 flex items-center gap-3 text-gray-800">
               <SparklesIcon className="w-7 h-7 text-pink-500" />
               Choose Your Shade
             </h2>
-            <ColorPicker
-              colors={lipstickColors}
-              selectedColor={selectedColor}
-              onColorSelect={setSelectedColor}
-            />
+            <div className="flex-1">
+              <ColorPicker
+                colors={lipstickColors}
+                selectedColor={selectedColor}
+                onColorSelect={setSelectedColor}
+              />
+            </div>
           </motion.div>
         </div>
 
