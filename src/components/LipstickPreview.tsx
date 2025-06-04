@@ -79,16 +79,49 @@ export default function LipstickPreview({
             canvas.height = img.height;
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
+            // Debug mode: set to true to draw mask outlines
+            const debug = false;
+
             // Draw face mesh landmarks
             for (const landmarks of results.multiFaceLandmarks) {
               // MediaPipe Face Mesh indices for lips
               const outerLipIndices = [61, 146, 91, 181, 84, 17, 314, 405, 321, 375, 291, 308, 324, 318, 402, 317, 14, 87, 178, 88, 95, 185, 40, 39, 37, 0, 267, 269, 270, 409, 415, 310, 311, 312, 13, 82, 81, 42, 183, 78];
-              const innerLipIndices = [78, 95, 88, 178, 87, 14, 317, 402, 318, 324, 308, 415, 310, 311, 312, 13, 82, 81, 42, 183, 78];
+              // Full, closed inner lip contour (better fit for mouth opening)
+              const innerLipIndices = [78, 191, 80, 81, 82, 13, 312, 311, 310, 415, 308, 324, 318, 402, 317, 14, 87, 178, 88, 95, 78];
 
               const outerLip = outerLipIndices.map(i => landmarks[i]);
               const innerLip = innerLipIndices.map(i => landmarks[i]);
 
-              // Create a mask for the lips
+              // Debug: draw outer and inner lip contours
+              if (debug) {
+                ctx.save();
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = 'rgba(0,255,0,0.7)'; // Green for outer
+                ctx.beginPath();
+                outerLip.forEach((landmark, index) => {
+                  if (index === 0) {
+                    ctx.moveTo(landmark.x * canvas.width, landmark.y * canvas.height);
+                  } else {
+                    ctx.lineTo(landmark.x * canvas.width, landmark.y * canvas.height);
+                  }
+                });
+                ctx.closePath();
+                ctx.stroke();
+                ctx.strokeStyle = 'rgba(255,0,0,0.7)'; // Red for inner
+                ctx.beginPath();
+                innerLip.forEach((landmark, index) => {
+                  if (index === 0) {
+                    ctx.moveTo(landmark.x * canvas.width, landmark.y * canvas.height);
+                  } else {
+                    ctx.lineTo(landmark.x * canvas.width, landmark.y * canvas.height);
+                  }
+                });
+                ctx.closePath();
+                ctx.stroke();
+                ctx.restore();
+              }
+
+              // Create a mask for the lips (outer - inner, inner in reverse for evenodd)
               ctx.save();
               ctx.beginPath();
               outerLip.forEach((landmark, index) => {
@@ -99,18 +132,19 @@ export default function LipstickPreview({
                 }
               });
               ctx.closePath();
-              ctx.moveTo(innerLip[0].x * canvas.width, innerLip[0].y * canvas.height);
-              innerLip.forEach((landmark, index) => {
-                if (index !== 0) {
+              for (let i = innerLip.length - 1; i >= 0; i--) {
+                const landmark = innerLip[i];
+                if (i === innerLip.length - 1) {
+                  ctx.moveTo(landmark.x * canvas.width, landmark.y * canvas.height);
+                } else {
                   ctx.lineTo(landmark.x * canvas.width, landmark.y * canvas.height);
                 }
-              });
+              }
               ctx.closePath();
               ctx.clip('evenodd');
 
               // Blend lipstick color using soft-light for realism
               ctx.globalCompositeOperation = 'soft-light';
-              // Create a vertical gradient for the lipstick
               const minY = Math.min(...outerLip.map(pt => pt.y * canvas.height));
               const maxY = Math.max(...outerLip.map(pt => pt.y * canvas.height));
               const gradient = ctx.createLinearGradient(0, minY, 0, maxY);
@@ -118,28 +152,32 @@ export default function LipstickPreview({
               gradient.addColorStop(1, adjustColor(color.hex, -30));
               ctx.fillStyle = gradient;
               ctx.fillRect(0, minY, canvas.width, maxY - minY);
-
-              // Restore to normal composite mode
               ctx.globalCompositeOperation = 'source-over';
 
-              // Add a subtle highlight for gloss (optional, for realism)
-              ctx.save();
-              ctx.globalAlpha = 0.18;
-              ctx.beginPath();
-              // Place highlight on the lower lip center
-              const highlight = outerLip[10];
-              ctx.ellipse(
-                highlight.x * canvas.width,
-                highlight.y * canvas.height,
-                canvas.width * 0.06,
-                canvas.height * 0.018,
-                0,
-                0,
-                2 * Math.PI
-              );
-              ctx.fillStyle = '#fff';
-              ctx.fill();
-              ctx.restore();
+              // Only draw gloss if lips are closed (gap between upper/lower inner lip is small)
+              // Use points 13 (upper inner) and 14 (lower inner) for vertical gap
+              // const upperInner = landmarks[13];
+              // const lowerInner = landmarks[14];
+              // const lipGap = Math.abs((upperInner.y - lowerInner.y) * canvas.height);
+              // if (lipGap < canvas.height * 0.04) { // threshold: adjust as needed
+              //   ctx.save();
+              //   ctx.globalAlpha = 0.18;
+              //   ctx.beginPath();
+              //   // Center gloss on lower lip (outerLip[16] is usually center bottom)
+              //   const glossCenter = outerLip[16];
+              //   ctx.ellipse(
+              //     glossCenter.x * canvas.width,
+              //     glossCenter.y * canvas.height,
+              //     canvas.width * 0.06,
+              //     canvas.height * 0.018,
+              //     0,
+              //     0,
+              //     2 * Math.PI
+              //   );
+              //   ctx.fillStyle = '#fff';
+              //   ctx.fill();
+              //   ctx.restore();
+              // }
 
               ctx.restore();
             }
