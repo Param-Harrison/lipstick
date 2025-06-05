@@ -54,8 +54,7 @@ const lipstickColors = [
   { name: 'Nude Beige', hex: '#F5DEB3' }, // True neutral beige
   { name: 'Hot Coral', hex: '#FF4040' }, // Intense, vibrant coral
   { name: 'Vivid Magenta', hex: '#C71585' }, // Bold pink-purple
-  { name: 'Espresso Brown', hex: '#4C2F27' }, // Rich, dark brown,
-  { name: 'Almond Pink', hex: '#D8A7B1' },
+  { name: 'Espresso Brown', hex: '#4C2F27' }, // Rich, dark brown
 ];
 
 export default function Home() {
