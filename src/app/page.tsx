@@ -24,6 +24,7 @@ const lipstickColors = [
   { name: 'Rosy Brown', hex: '#BC8F8F' }, // Cool-toned brown-pink, versatile[](https://www.today.com/shop/best-lipsticks-t224047)
   { name: 'Black Honey', hex: '#4A2C2A' }, // Sheer, raisin-tinted plum[](https://www.glamour.com/story/most-popular-lipstick-colors-review)[](https://www.allure.com/story/best-of-beauty-lips-winners-2023)[](https://www.allure.com/gallery/best-lipstick-for-mature-skin)
   { name: 'Dusty Pink', hex: '#DCAE96' }, // Subtle, elegant pink for daily wear[](https://reads.alibaba.com/4-must-know-lip-color-trends/)
+  { name: 'Almond Pink', hex: '#D8A7B1' }, // Warm, brown-toned pink
   { name: 'Mocha', hex: '#8A624A' }, // Rich, warm brown[](https://reads.alibaba.com/4-must-know-lip-color-trends/)
   { name: 'Warm Brown', hex: '#6F4E37' }, // Earthy, '90s-inspired brown[](https://www.thecut.com/article/lipstick-colors.html)[](https://www.stylecraze.com/articles/must-have-lipstick-shades/)
   { name: 'Brick Red', hex: '#8C2F1B' }, // Rust-toned red, autumnal vibe[](https://www.lorealparisusa.com/beauty-magazine/makeup/lip-makeup/best-lipstick-colors-finishes-trends-consumer-survey)
@@ -43,7 +44,18 @@ const lipstickColors = [
   { name: 'Blue', hex: '#0000FF' }, // Experimental, avant-garde shade[](https://www.harpersbazaar.com/beauty/makeup/a44040126/weird-girl-colorful-lipstick-trend/)[](https://www.cosmexshow.com/en-gb/blog/hottest-lip-color-trends-2023-2024.html)
   { name: 'Gray', hex: '#808080' }, // Unconventional, modern chic[](https://www.harpersbazaar.com/beauty/makeup/a44040126/weird-girl-colorful-lipstick-trend/)
   { name: 'Yellow', hex: '#FFFF00' }, // Bold, creative accent[](https://www.harpersbazaar.com/beauty/makeup/a44040126/weird-girl-colorful-lipstick-trend/)
-  { name: 'Green', hex: '#008000' } // Vibrant, experimental shade[](https://www.lorealparisusa.com/beauty-magazine/makeup/lip-makeup/best-lipstick-colors-finishes-trends-consumer-survey)
+  { name: 'Green', hex: '#008000' }, // Vibrant, experimental shade[](https://www.lorealparisusa.com/beauty-magazine/makeup/lip-makeup/best-lipstick-colors-finishes-trends-consumer-survey)
+  { name: 'Toasted Almond', hex: '#C68E8A' }, // Warm, brown-toned pink
+  { name: 'Soft Taupe', hex: '#A89993' }, // Neutral, grayish-brown nude
+  { name: 'Blush Nude', hex: '#F0D7CC' }, // Barely-there pink-beige
+  { name: 'Cinnamon Spice', hex: '#A0522D' }, // Warm, reddish-brown
+  { name: 'Terracotta', hex: '#E2725B' }, // Earthy, orange-red
+  { name: 'Bubblegum Pink', hex: '#FF69B4' }, // Bright, Y2K-inspired pink
+  { name: 'Nude Beige', hex: '#F5DEB3' }, // True neutral beige
+  { name: 'Hot Coral', hex: '#FF4040' }, // Intense, vibrant coral
+  { name: 'Vivid Magenta', hex: '#C71585' }, // Bold pink-purple
+  { name: 'Espresso Brown', hex: '#4C2F27' }, // Rich, dark brown,
+  { name: 'Almond Pink', hex: '#D8A7B1' },
 ];
 
 export default function Home() {
